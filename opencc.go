@@ -3,13 +3,13 @@ package gocc
 
 import (
 	"encoding/json"
+	"errors"
 	"flag"
 	"fmt"
 	"io/ioutil"
 	"os"
 	"path/filepath"
 	"reflect"
-	"runtime"
 	"strings"
 
 	"github.com/liuzl/da"
@@ -17,20 +17,17 @@ import (
 
 var (
 	// Dir is the parent dir for config and dictionary
-	Dir       = flag.String("dir", defaultDir(), "dict dir")
-	configDir = "config"
-	dictDir   = "dictionary"
+	Dir               = flag.String("dir", defaultDir(), "dict dir")
+	configDir         = "config"
+	dictDir           = "dictionary"
+	ErrConfigNotFound = errors.New("配置文件不存在")
 )
 
 func defaultDir() string {
-	if runtime.GOOS == "windows" {
-		return `C:\gocc\`
-	}
 	if goPath, ok := os.LookupEnv("GOPATH"); ok {
-		return goPath + "/src/github.com/liuzl/gocc/"
-	} else {
-		return `/usr/local/share/gocc/`
+		return goPath + "/pkg/mod/github.com/masterZSH/gocc/"
 	}
+	panic(ErrConfigNotFound)
 }
 
 // Group holds a sequence of dicts
