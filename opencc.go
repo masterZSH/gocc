@@ -1,4 +1,3 @@
-// Package gocc is a golang port of OpenCC(Open Chinese Convert 開放中文轉換)
 package gocc
 
 import (
@@ -24,9 +23,8 @@ var (
 )
 
 func defaultDir() string {
-	if goPath, ok := os.LookupEnv("GOPATH"); ok {
-		return goPath + "/pkg/mod/github.com/masterZSH/gocc/"
-	}
+
+	return os.Getcwd()
 	panic(ErrConfigNotFound)
 }
 
